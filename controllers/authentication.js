@@ -14,6 +14,7 @@ const {
 module.exports = {
   login: compose([
     (ctx, next) => {
+    console.log("kaljshdf");
       return passport.authenticate('local', { session: false }, (err, user, info) => {
         if (err) {
           strapi.eventHub.emit('admin.auth.error', { error: err, provider: 'local' });
