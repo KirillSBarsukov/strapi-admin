@@ -84,7 +84,7 @@ describe('ADMIN | CONTAINERS | AUTH | reducer', () => {
     it('Should set the requestError object correctly', () => {
       const action = {
         type: 'SET_REQUEST_ERROR',
-        errorMessage: 'Invalid credentials',
+        errorMessage: 'Invalid credentials 1',
         errorStatus: 400,
       };
       const initialState = {
@@ -100,7 +100,7 @@ describe('ADMIN | CONTAINERS | AUTH | reducer', () => {
           ok: true,
         },
         requestError: {
-          errorMessage: 'Invalid credentials',
+          errorMessage: 'Invalid credentials 3',
           errorStatus: 400,
         },
       };
