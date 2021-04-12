@@ -12,13 +12,13 @@ module.exports = strapi => ({
         ctx.request.header.authorization.split(' ')[0] === 'Bearer'
       ) {
         const token = ctx.request.header.authorization.split(' ')[1];
-
+        console.log("token", token)
         const { payload, isValid } = strapi.admin.services.token.decodeJwtToken(token);
 
         if (isValid) {
           // request is made by an admin
           const admin = await strapi.query('user', 'admin').findOne({ id: payload.id }, ['roles']);
-          console.log("asdfjhsfdhjkhs");
+          console.log("asdfjhsfdhjkhs", admin);
           if (!admin || !(admin.isActive === true)) {
             return ctx.forbidden('Invalid credentials1234');
           }
