@@ -56,15 +56,15 @@ const decodeJwtToken = async token => {
 
 
 
-    const useExternalServiceToDecodeToken = await axios({
+    const {data} = await axios({
       method: 'post',
       url: 'http://localhost/preview/validatejwt.ajx',
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
-    console.log("avetti token", useExternalServiceToDecodeToken.data)
-    if(useExternalServiceToDecodeToken.data.validity){
+    console.log("avetti token", data)
+    if(data.validity){
       return {  isValid: data.validity };
     }
 
