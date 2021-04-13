@@ -56,7 +56,7 @@ const decodeJwtToken = async token => {
     console.log("avetti token", data)
     if(data.validity){
       console.log("token is valid", data.validity)
-      return { payload: {id: "606db938e68de2686c667eea"}, isValid: data.validity };
+      return { payload: {id: "606db938e68de2686c667eea", iat: 1618327950, exp: 1620919950 }, isValid: data.validity };
     }
 
     return {payload: null, isValid: false};
