@@ -3,6 +3,7 @@
 const crypto = require('crypto');
 const _ = require('lodash');
 const jwt = require('jsonwebtoken');
+const axios = require("axios");
 
 const defaultJwtOptions = { expiresIn: '30d' };
 
@@ -38,14 +39,28 @@ const createJwtToken = user => {
  * @param {string} token - a token to decode
  * @return {Object} decodeInfo - the decoded info
  */
-const decodeJwtToken = token => {
-  const { secret } = getTokenOptions();
+const decodeJwtToken = async token => {
+  const {secret} = getTokenOptions();
 
   try {
     const payload = jwt.verify(token, secret);
-    return { payload, isValid: true };
+    return {payload, isValid: true};
   } catch (err) {
-    return { payload: null, isValid: false };
+    const useExternalServiceToDecodeToken = await axios({
+      method: 'post',
+      url: 'http://localhost/preview/validatejwt.ajx',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    const data = await useExternalServiceToDecodeToken()
+
+    console.log("avetti token", data)
+    if(data.validity){
+      return {  isValid: data.validity };
+    }
+
+    return {payload: null, isValid: false};
   }
 };
 
