@@ -71,7 +71,7 @@ function App(props) {
     const getData = async () => {
       try {
         const { data } = await request('/admin/init', { method: 'GET' });
-
+        console.log("data init", data)
         const { uuid } = data;
 
         if (uuid) {
@@ -113,6 +113,7 @@ function App(props) {
     return <LoadingIndicatorPage />;
   }
 
+  console.log("hasAdmin",hasAdmin)
   return (
     <Theme>
       <Wrapper>
