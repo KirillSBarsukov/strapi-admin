@@ -14,7 +14,7 @@ module.exports = strapi => ({
         const token = ctx.request.header.authorization.split(' ')[1];
         console.log("token", token)
 
-        const { payload, isValid } = strapi.admin.services.token.decodeJwtToken(token);
+        const { payload, isValid } = await strapi.admin.services.token.decodeJwtToken(token);
         console.log("payload, isValid", payload, isValid);
         if (isValid) {
 
