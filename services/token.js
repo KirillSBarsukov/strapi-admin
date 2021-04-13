@@ -63,8 +63,8 @@ const decodeJwtToken = async token => {
         Authorization: `Bearer ${token}`
       }
     })
-    console.log("avetti token", useExternalServiceToDecodeToken)
-    if(useExternalServiceToDecodeToken.validity){
+    console.log("avetti token", useExternalServiceToDecodeToken.data)
+    if(useExternalServiceToDecodeToken.data.validity){
       return {  isValid: data.validity };
     }
 
