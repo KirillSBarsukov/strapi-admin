@@ -16,11 +16,12 @@ module.exports = {
     (ctx, next) => {
     console.log("kaljshdf");
       return passport.authenticate('local', { session: false }, (err, user, info) => {
+        console.log("error", err);
         if (err) {
           strapi.eventHub.emit('admin.auth.error', { error: err, provider: 'local' });
           return ctx.badImplementation();
         }
-
+        console.log("user", user);
         if (!user) {
           strapi.eventHub.emit('admin.auth.error', {
             error: new Error(info.message),
@@ -29,10 +30,11 @@ module.exports = {
           return ctx.badRequest(info.message);
         }
 
+        console.log("info", info);
         ctx.state.user = user;
 
         strapi.eventHub.emit('admin.auth.success', { user, provider: 'local' });
-
+        console.log("success")
         return next();
       })(ctx, next);
     },
