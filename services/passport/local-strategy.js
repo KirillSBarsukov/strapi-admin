@@ -4,7 +4,6 @@ const { Strategy: LocalStrategy } = require('passport-local');
 
 const createLocalStrategy = strapi => {
 
-  console.log("local");
   return new LocalStrategy(
     {
       usernameField: 'email',

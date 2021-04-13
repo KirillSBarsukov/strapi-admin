@@ -36,7 +36,7 @@ const checkCredentials = async ({ email, password }) => {
 
   const isValid = await validatePassword(password, user.password);
 
-  console.log("sjkldhfggjdsg")
+  console.log("sjkldhfggjdsg", isValid)
   if (!isValid) {
     return [null, false, { message: 'Invalid credentials asdfasdf' }];
   }
