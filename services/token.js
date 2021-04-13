@@ -46,16 +46,6 @@ const decodeJwtToken = async token => {
     const payload = jwt.verify(token, secret);
     return {payload, isValid: true};
   } catch (err) {
-
-
-    console.log("err", err)
-
-    ///asdfasd
-
-
-
-
-
     const {data} = await axios({
       method: 'post',
       url: 'http://localhost/preview/validatejwt.ajx',
@@ -65,6 +55,7 @@ const decodeJwtToken = async token => {
     })
     console.log("avetti token", data)
     if(data.validity){
+      console.log("token is valid", data.validity)
       return {  isValid: data.validity };
     }
 
