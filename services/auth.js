@@ -31,14 +31,13 @@ const checkCredentials = async ({ email, password }) => {
 
   // when I hit login, that part is checking the validity of login/pass
   if (!user || !user.password) {
-    return [null, false, { message: 'Invalid credentials 44' }];
+    return [null, false, { message: 'Invalid credentials' }];
   }
 
   const isValid = await validatePassword(password, user.password);
 
-  console.log("sjkldhfggjdsg", isValid)
   if (!isValid) {
-    return [null, false, { message: 'Invalid credentials asdfasdf' }];
+    return [null, false, { message: 'Invalid credentials' }];
   }
 
   if (!(user.isActive === true)) {

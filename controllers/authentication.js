@@ -50,14 +50,14 @@ module.exports = {
     },
   ]),
 
-  renewToken(ctx) {
-    const { token } = ctx.request.body;
+  async renewToken(ctx) {
+    const {token} = ctx.request.body;
 
     if (token === undefined) {
       return ctx.badRequest('Missing token');
     }
 
-    const { isValid, payload } = strapi.admin.services.token.decodeJwtToken(token);
+    const {isValid, payload} = await strapi.admin.services.token.decodeJwtToken(token);
 
     if (!isValid) {
       return ctx.badRequest('Invalid token');
@@ -65,7 +65,7 @@ module.exports = {
 
     ctx.body = {
       data: {
-        token: strapi.admin.services.token.createJwtToken({ id: payload.id }),
+        token: strapi.admin.services.token.createJwtToken({id: payload.id, email: payload.email}),
       },
     };
   },
@@ -139,7 +139,7 @@ module.exports = {
       roles: superAdminRole ? [superAdminRole.id] : [],
     });
 
-    await strapi.telemetry.send('didCreateFirstAdmin');
+    // await strapi.telemetry.send('didCreateFirstAdmin');
 
     ctx.body = {
       data: {

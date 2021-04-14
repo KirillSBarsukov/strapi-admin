@@ -31,8 +31,9 @@ const createToken = () => {
 const createJwtToken = user => {
   const { options, secret } = getTokenOptions();
 
-  return jwt.sign({ id: user.id }, secret, options);
+  return jwt.sign({ id: user.id, email: user.email  }, secret, options);
 };
+
 
 /**
  * Tries to decode a token an return its payload and if it is valid
@@ -44,24 +45,28 @@ const decodeJwtToken = async token => {
 
   try {
     const payload = jwt.verify(token, secret);
+
     return {payload, isValid: true};
   } catch (err) {
-    // const {data} = await axios({
-    //   method: 'post',
-    //   url: 'http://localhost/preview/validatejwt.ajx',
-    //   headers: {
-    //     Authorization: `Bearer ${token}`
-    //   }
-    // })
-    // console.log("avetti token", data)
-    // if(data.validity){
-    //   console.log("token is valid", data.validity)
-    //   return { payload: {id: "606db938e68de2686c667eea", iat: 1618327950, exp: 1620919950 }, isValid: data.validity };
-    // }
+    const {data} = await axios({
+      method: 'post',
+      url: 'http://localhost/preview/validatejwt.ajx',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+
+    if (data.validity) {
+      const payload = jwt.decode(token)
+
+      return { payload: { email: payload.email, iat: 1618327950, exp: 1620919950, role: payload.adminRoleName, firstName: payload.adminFirstName, lastName: payload.adminLastName},  isValid: data.validity };
+    }
 
     return {payload: null, isValid: false};
   }
 };
+
 
 module.exports = {
   createToken,

@@ -35,6 +35,30 @@ module.exports = {
     ctx.created({ data: userInfo });
   },
 
+  async createManually(body) {
+    try {
+      await validateUserCreationInput(body);
+    } catch (err) {
+      console.log("ValidationError", err)
+      return null;
+    }
+
+    const attributes = _.pick(body, ['firstname', 'lastname', 'email', 'roles','isActive', 'username', 'password']);
+
+    const userAlreadyExists = await strapi.admin.services.user.exists({
+      email: attributes.email,
+    });
+
+    if (userAlreadyExists) {
+      console.log("Err", err);
+      return null
+    }
+
+    const createdUser = await strapi.admin.services.user.create(attributes);
+    // Send 201 created
+    return  strapi.admin.services.user.sanitizeUser(createdUser)
+  },
+
   async find(ctx) {
     const method = _.has(ctx.query, '_q') ? 'searchPage' : 'findPage';
 

@@ -45,7 +45,6 @@ function App(props) {
 
   useEffect(() => {
     const currentToken = auth.getToken();
-    console.log("current token", currentToken)
     const renewToken = async () => {
       try {
         const {
@@ -57,7 +56,6 @@ function App(props) {
         auth.updateToken(token);
       } catch (err) {
         // Refresh app
-        console.log("failed")
         auth.clearAppStorage();
         window.location.reload();
       }
